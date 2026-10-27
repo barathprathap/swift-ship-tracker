@@ -101,8 +101,8 @@ swift-ship-tracker/
 │   └── dashboard.png                                 # Executive operations dashboard preview
 ├── .gitignore                                        # Salesforce DX Git exclusion rules
 ├── sfdx-project.json                                 # Core project configuration & source API
-└── README.md                                         # Project documentation & architecture
-
+└── README.md                                     # Project documentation & architecture
+```
 ---
 
 ## 👥 Project Team & Contributors
@@ -121,5 +121,4 @@ swift-ship-tracker/
 *Swift Ship Tracker — Built on Salesforce Lightning Platform*
 
 </div>
-
 
