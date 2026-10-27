@@ -1,53 +1,95 @@
-# Swift Ship Tracker
+<div align="center">
 
-An enterprise Salesforce CRM application designed to track shipments, monitor delivery deadlines, and automatically flag overdue consignments.
+# 🚢 Swift Ship Tracker
+### *Enterprise Logistics & Consignment Lifecycle Management in Salesforce CRM*
+
+![Salesforce](https://img.shields.io/badge/Platform-Salesforce%20Lightning-00A1E0?style=for-the-badge&logo=salesforce&logoColor=white)
+![Automation](https://img.shields.io/badge/Automation-Schedule--Triggered%20Flow-0176D3?style=for-the-badge&logo=salesforce&logoColor=white)
+![Status](https://img.shields.io/badge/Build-Active%20%26%20Verified-2e7d32?style=for-the-badge)
+![UI](https://img.shields.io/badge/UI%20Theme-Executive%20Dark-512da8?style=for-the-badge)
+
+</div>
 
 ---
 
-## Operations Dashboard
+## 📊 Live Operations Dashboard
+
+<div align="center">
+
 ![Swift Ship Tracker Dashboard](screenshots/dashboard.png)
 
----
+</div>
 
-## Project Purpose
-In logistics operations, tracking shipments using spreadsheets or paper manifests leads to delayed updates, missed delivery targets, and poor visibility. 
-
-Swift Ship Tracker solves this by providing a centralized system inside Salesforce where dispatch teams can log consignments, monitor delivery dates in real time, and automatically identify delayed shipments without manual checking.
+> ⚡ **Real-time telemetry console** monitoring fleet fulfillment velocity, consignment progress across delivery hubs, and live active cargo manifests.
 
 ---
 
-## What the System Does
+## 🎯 Project Overview
 
-1. **Shipment Tracking**
-   Every shipment is assigned a unique auto-generated tracking number (`SH-0001`, `SH-0002`, etc.) along with the customer's name, target destination, dispatch date, expected delivery date, and current status.
+In conventional logistics environments, managing consignments across multiple routes using manual spreadsheets creates communication delays, overlooked delivery deadlines, and zero real-time visibility.
 
-2. **Status Progression**
-   Shipments move through five distinct stages:
-   * **Pending:** Order received, preparing for dispatch.
-   * **Dispatched:** Consignment has left the facility.
-   * **In Transit:** Shipment is on the way to the destination city.
-   * **Delivered:** Successfully received by the customer.
-   * **Delayed:** Missed the expected delivery deadline.
-
-3. **Automated Overdue Detection**
-   A scheduled background Flow (`Mark_Overdue_Shipments`) runs automatically every day. It compares the **Expected Delivery Date** against the current date. If a shipment's deadline has passed and it has not been marked as "Delivered", the system automatically changes its status to **Delayed**.
-
-4. **Executive Operations Dashboard**
-   * **Total Shipments:** Shows total package volume in the system.
-   * **Active Delivery Velocity:** A visual gauge measuring fulfillment speed.
-   * **Fulfillment Pipeline:** A donut chart showing the breakdown between dispatched, in transit, and delivered packages.
-   * **Consignments by Status & Destination:** A bar chart comparing shipment loads across destinations (Chennai, Mumbai, Delhi, Bengaluru).
-   * **Live Shipment Manifest:** A detailed table listing all active shipments, customers, dispatch dates, and target arrival dates.
+**Swift Ship Tracker** brings order to freight operations by consolidating consignments inside a centralized Salesforce Lightning architecture. The platform automates overdue tracking in the background and delivers actionable KPI metrics to dispatch teams.
 
 ---
 
-## Custom Object: Shipment (`Shipment__c`)
+## ⚡ Key Highlights & Capabilities
 
-| Field Label | API Name | Data Type | Purpose |
+### 🏷️ 1. Automated Tracking Identity
+Every record is cataloged with a unique, auto-sequenced consignment number (`SH-0001`, `SH-0002`, `SH-0003`, `SH-0004`) tied to customer metadata and origin-to-destination routing.
+
+### 🔄 2. Dynamic Lifecycle Management
+Consignments advance through five strict operational stages:
+
+| Stage | Visual Indicator | Definition |
+| :--- | :--- | :--- |
+| **Pending** | `🟡 Pending` | Order placed, cargo being assembled at source warehouse |
+| **Dispatched** | `🔵 Dispatched` | Cargo has cleared the dock and departed the facility |
+| **In Transit** | `🟣 In Transit` | Carrier is actively moving between destination hubs |
+| **Delivered** | `🟢 Delivered` | Consignment successfully acknowledged by recipient |
+| **Delayed** | `🔴 Delayed` | Target delivery SLA deadline missed |
+
+### ⚙️ 3. Autonomous SLA Breach Detection
+A native background automation engine powered by a **Schedule-Triggered Flow** (`Mark_Overdue_Shipments`):
+* 🕒 Runs automatically on a daily schedule.
+* 🔍 Scans active consignments where `Shipment_Status__c != 'Delivered'`.
+* ⏱️ Compares `Expected_Delivery_Date__c` against the runtime date (`$Flow.CurrentDate`).
+* 🚨 Proactively transitions past-due shipments to **Delayed** without requiring manual agent checks.
+
+### 📈 4. Executive Analytics Console
+* 📦 **Total Shipments:** Live volume counter displaying current active consignments.
+* 🧭 **Active Delivery Velocity:** Speedometer gauge visualizing operational delivery pace.
+* 🍩 **Fulfillment Pipeline:** Color-coded donut chart highlighting milestone breakdown.
+* 📊 **Consignments by Status & Hub:** Grouped bar chart comparing load across routes (Chennai, Mumbai, Delhi, Bengaluru).
+* 📋 **Live Shipment Manifest:** Full-width record ledger tracking tracking numbers, clients, dispatch dates, and target deadlines.
+
+---
+
+## 🗄️ Custom Schema Design (`Shipment__c`)
+
+| Field Label | API Name | Data Type | Key Purpose |
 | :--- | :--- | :--- | :--- |
-| Shipment Number | `Name` | Auto Number (`SH-{0000}`) | System-generated tracking ID |
-| Customer Name | `Customer_Name__c` | Text(100) | Name of the customer receiving the delivery |
-| Destination | `Destination__c` | Text(100) | Delivery destination city |
-| Dispatch Date | `Dispatch_Date__c` | Date | The date the shipment departed |
-| Expected Delivery Date | `Expected_Delivery_Date__c` | Date | Target delivery deadline |
-| Shipment Status | `Shipment_Status__c` | Picklist | Current status of the shipment |
+| **Shipment Number** | `Name` | `Auto Number (SH-{0000})` | System-generated tracking ID |
+| **Customer Name** | `Customer_Name__c` | `Text (100)` | Consignment recipient / receiving entity |
+| **Destination** | `Destination__c` | `Text (100)` | Target arrival transit hub / city |
+| **Dispatch Date** | `Dispatch_Date__c` | `Date` | Actual departure date from dispatch center |
+| **Expected Delivery Date** | `Expected_Delivery_Date__c` | `Date` | Contractual delivery SLA target |
+| **Shipment Status** | `Shipment_Status__c` | `Picklist` | Active delivery stage progression |
+
+---
+
+## 👥 Project Team & Contributors
+
+| Member Name | Role / Focus Area | Contact / Handle |
+| :--- | :--- | :--- |
+| **Barath Prathap** | Project Lead & Salesforce Architecture | [@barathprathap](https://github.com/barathprathap) |
+| **Teammate 2** | Declarative Automation & Flow Logic | Team Member |
+| **Teammate 3** | Object Schema & Data Modeling | Team Member |
+| **Teammate 4** | Lightning Reports & Dashboard Analytics | Team Member |
+
+---
+
+<div align="center">
+
+*Swift Ship Tracker — Built on Salesforce Lightning Platform*
+
+</div>
