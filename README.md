@@ -77,6 +77,34 @@ A native background automation engine powered by a **Schedule-Triggered Flow** (
 
 ---
 
+## 📂 Repository & Metadata Structure
+
+```text
+swift-ship-tracker/
+├── force-app/main/default/
+│   ├── flows/
+│   │   └── Mark_Overdue_Shipments.flow-meta.xml      # Scheduled overdue detection logic
+│   ├── layouts/
+│   │   └── Shipment__c-Shipment Layout.layout-meta.xml # Standard record page layout
+│   ├── objects/
+│   │   └── Shipment__c/
+│   │       ├── fields/
+│   │       │   ├── Customer_Name__c.field-meta.xml   # Recipient metadata
+│   │       │   ├── Destination__c.field-meta.xml     # Transit delivery hub
+│   │       │   ├── Dispatch_Date__c.field-meta.xml   # Warehouse departure date
+│   │       │   ├── Expected_Delivery_Date__c.field-meta.xml # SLA deadline target
+│   │       │   └── Shipment_Status__c.field-meta.xml # Lifecycle picklist stages
+│   │       └── Shipment__c.object-meta.xml           # Custom object definition & auto-number
+│   └── tabs/
+│       └── Shipment__c.tab-meta.xml                  # Custom Lightning tab configuration
+├── screenshots/
+│   └── dashboard.png                                 # Executive operations dashboard preview
+├── .gitignore                                        # Salesforce DX Git exclusion rules
+├── sfdx-project.json                                 # Core project configuration & source API
+└── README.md                                         # Project documentation & architecture
+
+---
+
 ## 👥 Project Team & Contributors
 
 | Member Name | Role / Focus Area | Contact / Handle |
