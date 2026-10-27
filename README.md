@@ -1,58 +1,53 @@
-# Salesforce DX Project
+# Swift Ship Tracker
 
-Salesforce DX is a development approach that brings source-driven development, team collaboration, and continuous integration to the Salesforce Platform. Instead of working directly in an org through a web browser, you work with metadata as source files in a local DX project, track changes in version control, and deploy through automated processes.
+An enterprise Salesforce CRM application designed to track shipments, monitor delivery deadlines, and automatically flag overdue consignments.
 
-This project template gets you started with the tools and structure you need to build Salesforce applications using source control, scratch orgs, and the Salesforce CLI.
+---
 
-## Prerequisites
+## Operations Dashboard
+![Swift Ship Tracker Dashboard](screenshots/dashboard.png)
 
-Before you start, make sure you have:
+---
 
-- **Salesforce CLI** - Download from [developer.salesforce.com/tools/salesforcecli](https://developer.salesforce.com/tools/salesforcecli). See [Install Salesforce CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) for details.
-- **VS Code with Salesforce Extension Pack** - See [Installation Instructions](https://developer.salesforce.com/docs/platform/sfvscode-extensions/guide/install.html) for details. Includes the Agentforce Vibes extension.
-- **A development org** - Sign up for a free Developer Edition org [here](https://developer.salesforce.com/signup).
-- **Dev Hub enabled** (optional, required to create scratch orgs) - You can enable Dev Hub in your development org under Setup > Dev Hub.  See [Provide Developers Access to Salesforce DX Tools](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_setup_dx_tools.htm).
+## Project Purpose
+In logistics operations, tracking shipments using spreadsheets or paper manifests leads to delayed updates, missed delivery targets, and poor visibility. 
 
-## Project Structure
+Swift Ship Tracker solves this by providing a centralized system inside Salesforce where dispatch teams can log consignments, monitor delivery dates in real time, and automatically identify delayed shipments without manual checking.
 
-Your DX project follows this structure:
+---
 
-- **`force-app/main/default/`** - Your metadata source files live in this default package directory. You can configure additional package directories in the `sfdx-project.json` file.
-- **`config/`** - Scratch org definitions and project settings
-- **`scripts/`** - Automation scripts for common tasks
-- **`sfdx-project.json`** - Project manifest that defines package directories, namespace, API version, and other project-level settings
+## What the System Does
 
-See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm).
+1. **Shipment Tracking**
+   Every shipment is assigned a unique auto-generated tracking number (`SH-0001`, `SH-0002`, etc.) along with the customer's name, target destination, dispatch date, expected delivery date, and current status.
 
-## Get Started
+2. **Status Progression**
+   Shipments move through five distinct stages:
+   * **Pending:** Order received, preparing for dispatch.
+   * **Dispatched:** Consignment has left the facility.
+   * **In Transit:** Shipment is on the way to the destination city.
+   * **Delivered:** Successfully received by the customer.
+   * **Delayed:** Missed the expected delivery deadline.
 
-Ready to start developing? The [Get Started with Salesforce DX](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_get_started_dx.htm) guide walks you through your first project, from creating a scratch org to creating a simple Apex class or LWC to deploying your code to a sandbox.
+3. **Automated Overdue Detection**
+   A scheduled background Flow (`Mark_Overdue_Shipments`) runs automatically every day. It compares the **Expected Delivery Date** against the current date. If a shipment's deadline has passed and it has not been marked as "Delivered", the system automatically changes its status to **Delayed**.
 
-## Common Salesforce CLI Commands
+4. **Executive Operations Dashboard**
+   * **Total Shipments:** Shows total package volume in the system.
+   * **Active Delivery Velocity:** A visual gauge measuring fulfillment speed.
+   * **Fulfillment Pipeline:** A donut chart showing the breakdown between dispatched, in transit, and delivered packages.
+   * **Consignments by Status & Destination:** A bar chart comparing shipment loads across destinations (Chennai, Mumbai, Delhi, Bengaluru).
+   * **Live Shipment Manifest:** A detailed table listing all active shipments, customers, dispatch dates, and target arrival dates.
 
-Here are common CLI commands that you'll use the most:
+---
 
-- `sf org login web`: Authorize an org
-- `sf org open`: Open your org in a browser
-- `sf org create scratch`: Create a scratch org
-- `sf project deploy start`: Deploy metadata to your org
-- `sf project retrieve start`: Retrieve metadata from your org
-- `sf template generate <artifact>`: Scaffold new components, such as Apex classes and triggers, LWC components, Lightning apps, and more
-- `sf apex <command>`: Run Apex tests, run anonymous Apex blocks, and view logs
-- `sf data <command>`: Work with test data
-- `sf alias <command>`: Manage org aliases
-- `sf config <command>`: Configure CLI settings
+## Custom Object: Shipment (`Shipment__c`)
 
-## Use Agentforce Vibes to Build Lightning Apps
-
-Transform your ideas into custom Lightning apps that extend CRM workflows directly in Lightning Experience. Through natural conversations with Agentforce Vibes, implement custom objects and fields, complex business logic, and dynamic UI components. See [Build a Lightning App Using Agentforce Vibes](https://developer.salesforce.com/docs/platform/einstein-for-devs/guide/lexapp-overview.html).
-
-## Additional Resources
-
-- [Agentforce Vibes Developer Guide](https://developer.salesforce.com/docs/platform/einstein-for-devs/guide/einstein-overview.html)
-- [Salesforce CLI Installation Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/)
-- [Salesforce CLI Plugin Development Guide](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/conceptual-overview.html)
-- [Salesforce VS Code Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-
+| Field Label | API Name | Data Type | Purpose |
+| :--- | :--- | :--- | :--- |
+| Shipment Number | `Name` | Auto Number (`SH-{0000}`) | System-generated tracking ID |
+| Customer Name | `Customer_Name__c` | Text(100) | Name of the customer receiving the delivery |
+| Destination | `Destination__c` | Text(100) | Delivery destination city |
+| Dispatch Date | `Dispatch_Date__c` | Date | The date the shipment departed |
+| Expected Delivery Date | `Expected_Delivery_Date__c` | Date | Target delivery deadline |
+| Shipment Status | `Shipment_Status__c` | Picklist | Current status of the shipment |
