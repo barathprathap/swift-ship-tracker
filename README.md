@@ -109,10 +109,10 @@ swift-ship-tracker/
 
 | Member Name | Role / Focus Area | Contact / Handle |
 | :--- | :--- | :--- |
-| **Barath Prathap** | Project Lead & Salesforce Architecture | [@barathprathap](https://github.com/barathprathap) |
-| **Teammate 2** | Declarative Automation & Flow Logic | Team Member |
-| **Teammate 3** | Object Schema & Data Modeling | Team Member |
-| **Teammate 4** | Lightning Reports & Dashboard Analytics | Team Member |
+| **Barath Prathap** | Project Lead & Salesforce Architecture | [@barathprathap](https://github.com/barathprathap) | |Reg No: `12345678`|
+| **Teammate 2** | Declarative Automation & Flow Logic | Team Member | |Reg No: `12345678`|
+| **Teammate 3** | Object Schema & Data Modeling | Team Member | |Reg No: `12345678`|
+| **Teammate 4** | Lightning Reports & Dashboard Analytics | Team Member | (Reg No: `12345678`)
 
 ---
 
